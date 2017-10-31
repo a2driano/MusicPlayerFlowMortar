@@ -13,12 +13,13 @@ import ua.recycler.binding.musicplayerflowmortar.AdapterTrack;
 import ua.recycler.binding.musicplayerflowmortar.App;
 import ua.recycler.binding.musicplayerflowmortar.R;
 import ua.recycler.binding.musicplayerflowmortar.TrackScreen;
+import ua.recycler.binding.musicplayerflowmortar.model.Track;
 
 /**
  * Created by kunde on 30.10.2017.
  */
 
-public class TrackList extends FrameLayout {
+public class TrackList extends FrameLayout implements AdapterTrack.OnItemClick {
     private RecyclerView mRecyclerView;
     private Context mContext;
 
@@ -45,5 +46,10 @@ public class TrackList extends FrameLayout {
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(new AdapterTrack(screen.track));
+    }
+
+    @Override
+    public void onItemClick(Track track) {
+        Flow.get(this).set(new TrackInfo(track));
     }
 }

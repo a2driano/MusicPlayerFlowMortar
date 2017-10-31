@@ -1,6 +1,7 @@
 package ua.recycler.binding.musicplayerflowmortar;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import ua.recycler.binding.musicplayerflowmortar.model.Track;
 
 public class AdapterTrack extends RecyclerView.Adapter<AdapterTrack.TrackHolder> {
     private List<Track> mTrackList;
+    private OnItemClick mOnItemClick;
 
     public AdapterTrack(List<Track> mTrackList) {
         this.mTrackList = mTrackList;
@@ -23,7 +25,7 @@ public class AdapterTrack extends RecyclerView.Adapter<AdapterTrack.TrackHolder>
 
     @Override
     public TrackHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
         return new TrackHolder(view);
     }
 
@@ -38,7 +40,7 @@ public class AdapterTrack extends RecyclerView.Adapter<AdapterTrack.TrackHolder>
         return mTrackList.size();
     }
 
-    public class TrackHolder extends RecyclerView.ViewHolder {
+    public class TrackHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView name;
         public TextView track;
 
@@ -47,6 +49,17 @@ public class AdapterTrack extends RecyclerView.Adapter<AdapterTrack.TrackHolder>
 
             name = itemView.findViewById(R.id.name);
             track = itemView.findViewById(R.id.track);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            mOnItemClick.onItemClick(mTrackList.get(getAdapterPosition()));
+        }
+    }
+
+    public interface OnItemClick {
+        void onItemClick(Track track);
     }
 }
